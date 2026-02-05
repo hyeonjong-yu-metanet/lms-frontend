@@ -85,26 +85,51 @@ onMounted(async () => {
     })
       .addTo(map)
       .bindTooltip(
-        `Desk: ${desk.deskName}<br>Occupied: ${desk.occupied}`,
+        `책상명: ${desk.deskName}<br>점유여부: ${desk.occupied}<br>책상센서위치: ${desk.deskSensorLoc}`,
         { sticky: true }
       )
+
+      /* =========================
+     📍 Desk Sensor Point
+     ========================= */
+    if (desk.deskSensorLoc) {
+      console.log('HJLGO deskpoint : ', desk.deskSensorLoc);
+      const sensorPoint = parsePoint(desk.deskSensorLoc)
+
+      L.circleMarker(sensorPoint, {
+        radius: 4,
+        color: '#ffc107',
+        fillColor: '#ffc107',
+        fillOpacity: 1
+      })
+        .addTo(map)
+        .bindTooltip(
+          `센서<br>책상명: ${desk.deskName}`,
+          { sticky: true }
+        )
+    }
   })
+  
 
   /* =========================
      5️⃣ OA Point 그리기
      ========================= */
   oas.forEach(oa => {
-    if (!oa.geom) return
+    console.log('HJLOG oa ', oa);
+    console.log('HJLOG oa ', oa.point);
+    if (!oa.point) return
 
-    const point = parsePoint(oa.geom)
+    const point = parsePoint(oa.point)
 
     L.circleMarker(point, {
       radius: 6,
       color: '#0d6efd',
+      fillColor: '#0d6efd',
       fillOpacity: 0.9
     })
       .addTo(map)
-      .bindTooltip(`OA ID: ${oa.oaId}`)
+      .bindTooltip(`OA ID: ${oa.oaId}<br>OA센서:${oa.point}`),
+      { sticky: true }
   })
 })
 </script>
