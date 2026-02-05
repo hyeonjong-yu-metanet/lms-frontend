@@ -8,8 +8,8 @@ const routes = [
   },
   {
     path: '/apiView',
-    name: 'ApiView',
-    component: () => import('../views/ApiView.vue')
+    name: 'testView',
+    component: () => import('../views/TestView.vue')
   }
 ]
 
